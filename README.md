@@ -20,6 +20,29 @@ claude plugin install charlesskills@charles
 
 把 `skills/<分类>/<skill 名>/` 整个文件夹复制到 `~/.claude/skills/` 即可。
 
+### Codex（手动安装）
+
+Codex 会从 `~/.codex/skills/` 加载用户级 skills。推荐把仓库克隆到本地，再把每个 skill 链接进去，这样以后只需要 `git pull` 就能更新：
+
+```bash
+git clone https://github.com/Charlesxiaomi/Charlesskills.git ~/Charlesskills
+cd ~/Charlesskills
+mkdir -p ~/.codex/skills
+
+find "$PWD/skills" -name SKILL.md -not -path '*/deprecated/*' -exec sh -c '
+  skill_dir="$(dirname "$1")"
+  ln -sfn "$skill_dir" "$HOME/.codex/skills/$(basename "$skill_dir")"
+' _ {} \;
+```
+
+仓库更新后执行：
+
+```bash
+git -C ~/Charlesskills pull
+```
+
+安装完成后重新打开 Codex 或新建一个对话，让它加载新增的 skills。也可以只把需要的 skill 文件夹复制或链接到项目内的 `.codex/skills/`，仅在该项目中使用。
+
 ## Skills 清单
 
 ### 内容创作 · [content](./skills/content/README.md)
