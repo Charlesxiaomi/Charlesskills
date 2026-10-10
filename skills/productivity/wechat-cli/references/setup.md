@@ -16,7 +16,6 @@ sudo wechat-cli init      # macOS / Linux（需要 sudo 扫描内存）
 wechat-cli init           # Windows：必须用管理员权限的终端
 ```
 
-本机已 init 过；`~/.wechat-cli/` 属主是 root，所以部分操作可能需要 sudo。
 若本地登录过多个微信号，会让你选一个，默认第一个。
 
 ## 适配的微信版本
