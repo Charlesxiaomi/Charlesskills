@@ -9,5 +9,11 @@
   "repository": "https://github.com/Charlesxiaomi/Charlesskills",
   "license": "MIT",
   "keywords": ["skills", "content", "productivity"],
-  "skills": []
+    "skills",
+    "content",
+    "productivity"
+  ],
+  "skills": [
+    "./skills/productivity/wechat-cli"
+  ]
 }

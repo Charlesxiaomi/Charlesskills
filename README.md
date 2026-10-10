@@ -28,7 +28,7 @@ _暂无_
 
 ### 效率工具 · [productivity](./skills/productivity/README.md)
 
-_暂无_
+- [wechat-cli](./skills/productivity/wechat-cli/SKILL.md)：只读查询本机微信聊天记录、联系人、群成员、收藏等
 
 ### 工程开发 · [engineering](./skills/engineering/README.md)
 
