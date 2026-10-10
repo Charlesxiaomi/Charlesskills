@@ -1,0 +1,17 @@
+{
+  "name": "charles",
+  "owner": {
+    "name": "Charles",
+    "url": "https://github.com/Charlesxiaomi"
+  },
+  "description": "Charles 自己编写的 Agent Skills。",
+  "plugins": [
+    {
+      "name": "charlesskills",
+      "source": "./",
+      "description": "Charles 每天在用的 Agent Skills：内容创作、效率工具、工程开发。",
+      "category": "productivity",
+      "keywords": ["skills", "content", "productivity"]
+    }
+  ]
+}

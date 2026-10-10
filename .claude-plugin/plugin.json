@@ -1,0 +1,13 @@
+{
+  "name": "charlesskills",
+  "version": "0.1.0",
+  "description": "Charles 每天在用的 Agent Skills：内容创作、效率工具、工程开发。",
+  "author": {
+    "name": "Charles",
+    "url": "https://github.com/Charlesxiaomi"
+  },
+  "repository": "https://github.com/Charlesxiaomi/Charlesskills",
+  "license": "MIT",
+  "keywords": ["skills", "content", "productivity"],
+  "skills": []
+}
