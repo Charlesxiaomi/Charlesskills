@@ -7,8 +7,6 @@ description: 用 wechat-cli 只读查询本机微信数据——最近会话、�
 
 `wechat-cli` 是 npm 包 `@canghe_ai/wechat-cli`，直接读本机微信数据库。**纯本地、只读**：不能发消息、不能改删消息、不与微信服务器交互。用户要"发微信"时改用 openilink-hub。
 
-本机已安装并 init 过：二进制 `/opt/homebrew/bin/wechat-cli`，配置在 `~/.wechat-cli/`。
-
 ## 使用前
 
 - 默认输出 JSON，适合你自己解析；要直接展示给用户时加 `--format text`。
