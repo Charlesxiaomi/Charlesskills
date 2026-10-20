@@ -47,7 +47,7 @@ git -C ~/Charlesskills pull
 
 ### 内容创作 · [content](./skills/content/README.md)
 
-_暂无_
+- [xhs-research](./skills/content/xhs-research/SKILL.md)：用 TikHub 小红书 MCP 做选题调研（扩词、蓝海词）和对标账号分析
 
 ### 效率工具 · [productivity](./skills/productivity/README.md)
 

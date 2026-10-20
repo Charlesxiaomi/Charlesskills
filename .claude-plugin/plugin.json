@@ -10,6 +10,7 @@
   "license": "MIT",
   "keywords": ["skills", "content", "productivity"],
   "skills": [
-    "./skills/productivity/wechat-cli"
+    "./skills/productivity/wechat-cli",
+    "./skills/content/xhs-research"
   ]
 }
