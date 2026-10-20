@@ -47,7 +47,7 @@ git -C ~/Charlesskills pull
 
 ### 内容创作 · [content](./skills/content/README.md)
 
-- [xhs-research](./skills/content/xhs-research/SKILL.md)：用 TikHub 小红书 MCP 做选题调研（扩词、蓝海词）和对标账号分析
+- [xhs-research](./skills/content/xhs-research/SKILL.md)：用 TikHub 小红书 MCP 做选题调研（扩词、蓝海词）和对标账号分析。费用：按次计费，空结果也扣（每次 $0.001–0.01，约 ¥0.007–0.07，不同接口价格不同）
 
 ### 效率工具 · [productivity](./skills/productivity/README.md)
 
