@@ -2,7 +2,10 @@
 """解密微信 4.x 聊天图片（V2 格式的 .dat），只读，不改微信的任何文件。
 
 用法：
-  python3 -I wx_images.py --acc 1 --chat "48409737039@chatroom" --start 2026-11-01 [--end 2026-11-12] [--out DIR]
+  python3 -I wx_images.py --config ~/.wechat-cli/config.json --chat "48409737039@chatroom" --start 2026-11-01 [--end 2026-11-12] [--out DIR]
+
+--config 传 wechat-cli 的配置文件（和 wechat-cli --config 是同一个），默认 ~/.wechat-cli/config.json。
+脚本从里面的 db_dir 找到微信账号目录，图片密钥缓存也写在这个配置文件的同一目录下。
 
 --chat 传会话的 username（wechat-cli history 的 JSON 输出里的 "username" 字段：
 群是 xxx@chatroom，个人是 wxid 或微信号），不是显示名。
@@ -28,10 +31,6 @@ import tempfile
 
 from Crypto.Cipher import AES
 
-ACCOUNTS = {
-    "1": ("com.tencent.xinWeChat", "~/.wechat-cli-acc1"),
-    "2": ("com.tencent.xinWeChat2", "~/.wechat-cli-acc2"),
-}
 V2 = b"\x07\x08V2\x08\x07"
 MAGIC = {b"\xff\xd8\xff": "jpg", b"\x89PN": "png", b"GIF": "gif", b"wxg": "wxgf", b"RIF": "webp"}
 
@@ -40,13 +39,13 @@ def aes_len(aes_size):
     return (aes_size // 16 + 1) * 16  # PKCS7：整块时也多补一块
 
 
-def find_key(container, cfg_dir, wxid, sample):
+def find_key(docs_dir, cfg_dir, wxid, sample):
     cache = os.path.join(cfg_dir, "image_key.json")
     if os.path.exists(cache):
         return json.load(open(cache))
-    kv = os.path.expanduser(f"~/Library/Containers/{container}/Data/Documents/app_data/net/kvcomm")
+    kv = os.path.join(docs_dir, "app_data", "net", "kvcomm")
     uins = []
-    for name in sorted(os.listdir(kv)):
+    for name in sorted(os.listdir(kv)) if os.path.isdir(kv) else []:
         for tok in re.findall(r"\d{5,10}", name):
             if tok not in uins:
                 uins.append(tok)
@@ -123,7 +122,8 @@ def wxgf_to_jpg(plain, base):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--acc", choices=["1", "2"], required=True)
+    ap.add_argument("--config", default="~/.wechat-cli/config.json",
+                    help="wechat-cli 的 config.json，多账号时每个号传各自的那份")
     ap.add_argument("--chat", required=True, help="会话 username，如 48409737039@chatroom")
     ap.add_argument("--start", required=True, help="YYYY-MM-DD")
     ap.add_argument("--end", help="YYYY-MM-DD（含当天），默认到现在")
@@ -131,10 +131,13 @@ def main():
     ap.add_argument("--thumb", action="store_true", help="只要缩略图（快，够看大意）")
     a = ap.parse_args()
 
-    container, cfg_dir = ACCOUNTS[a.acc]
-    cfg_dir = os.path.expanduser(cfg_dir)
-    db_dir = json.load(open(os.path.join(cfg_dir, "config.json")))["db_dir"]
+    cfg_path = os.path.expanduser(a.config)
+    if not os.path.isfile(cfg_path):
+        sys.exit(f"找不到配置文件：{cfg_path}\n先跑 wechat-cli init，或用 --config 指定。")
+    cfg_dir = os.path.dirname(os.path.abspath(cfg_path))
+    db_dir = os.path.expanduser(json.load(open(cfg_path))["db_dir"])
     acc_root = os.path.dirname(db_dir.rstrip("/"))
+    docs_dir = os.path.dirname(os.path.dirname(acc_root))  # .../Documents/xwechat_files/<账号>
     wxid = re.sub(r"_[0-9a-f]{4}$", "", os.path.basename(acc_root))
     chat_md5 = hashlib.md5(a.chat.encode()).hexdigest()
     attach = os.path.join(acc_root, "msg", "attach", chat_md5)
@@ -167,7 +170,7 @@ def main():
         if not src:
             continue
         if key is None:
-            key = find_key(container, cfg_dir, wxid, src)
+            key = find_key(docs_dir, cfg_dir, wxid, src)
         plain = decrypt(src, key)
         if plain is None:
             rows.append((when, f"{src}（不是 V2 格式，跳过）"))

@@ -39,8 +39,8 @@ wechat-cli 只能列出图片消息（时间、发送人），看不了内容。
 ```bash
 # 1. 拿会话的 username（JSON 输出的 "username" 字段，群是 xxx@chatroom）和图片消息的时间
 wechat-cli history "群名" --type image --start-time 2026-11-01 --limit 50
-# 2. 解密这个时间段的图片（--acc 选账号；加 --thumb 只出缩略图）
-python3 -I scripts/wx_images.py --acc 1 --chat "xxxx@chatroom" --start 2026-11-01
+# 2. 解密这个时间段的图片（--config 和 wechat-cli 用同一份，默认 ~/.wechat-cli/config.json；加 --thumb 只出缩略图）
+python3 -I scripts/wx_images.py --config ~/.wechat-cli/config.json --chat "xxxx@chatroom" --start 2026-11-01
 # 3. 用 Read 打开输出的 jpg/png
 ```
 
